@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdax_exam/application/bloc/person/fetch_person/fetch_person_cubit.dart';
 import 'package:pdax_exam/domain/entity/person/person_entity.dart';
-import 'package:pdax_exam/infrastructure/model/person/person_model.dart';
 import 'package:pdax_exam/presentation/ui/users_page/users_page.dart';
 import 'package:pdax_exam/presentation/utility/global.dart' as global;
 import 'package:pdax_exam/presentation/utility/constants.dart' as constants;
@@ -20,28 +19,22 @@ class NewHomepage extends StatefulWidget {
 
 class _NewHomepageState extends State<NewHomepage> {
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
-  List<DatumModel> datumList = [];
-  int _itemsLoaded = 0;
-  final int _itemsPerPage = 20;
+  List<DatumEntity> datumList = [];
 
   void _onRefresh(context) async {
-    _itemsLoaded = 0;
-    await BlocProvider.of<FetchPersonCubit>(context)
-        .fetchPersonsDataCubit(context, _itemsLoaded, _itemsPerPage);
+    await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.refreshCompleted();
   }
 
-  void _onLoading(context) async {
-    _itemsLoaded += _itemsPerPage;
-    await BlocProvider.of<FetchPersonCubit>(context)
-        .fetchPersonsDataCubit(context, _itemsLoaded, _itemsPerPage);
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.loadComplete();
   }
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<FetchPersonCubit>(context).fetchPersonsDataCubit(context, _itemsLoaded, _itemsPerPage);
+    //BlocProvider.of<FetchPersonCubit>(context).fetchPersonsDataCubit(context);
   }
 
   @override
@@ -55,6 +48,14 @@ class _NewHomepageState extends State<NewHomepage> {
         centerTitle: true,
         leading: const SizedBox(),
       ),
+      // body: SmartRefresher(
+      //   controller: _refreshController,
+      //   enablePullDown: true,
+      //   enablePullUp: true,
+      //   onRefresh: _onRefresh,
+      //   onLoading: _onLoading,
+      //   child: _buildBlocBuilder(),
+      // ),
       body: _buildBlocBuilder(context),
     );
   }
@@ -73,11 +74,8 @@ class _NewHomepageState extends State<NewHomepage> {
             return const Center(child: CircularProgressIndicator.adaptive());
           }
           if (state is FetchPersonSuccess) {
-            if (_itemsLoaded == 0) {
-              datumList = state.persons;
-            } else {
-              datumList.addAll(state.persons);
-            }
+            //datumList = state.persons;
+
             return _buildListViewBuilder(context);
           }
           if (state is FetchPersonFailure) {
@@ -97,11 +95,9 @@ class _NewHomepageState extends State<NewHomepage> {
           onRefresh: () {
             _onRefresh(context);
           },
-          onLoading: () {
-            _onLoading(context);
-          },
+          onLoading: _onLoading,
           child: ListView.builder(
-            itemCount: datumList.length,
+            itemCount: 10,
             itemBuilder: (context, index) {
               final data = datumList[index];
               return _buildDataLayers(data);
@@ -110,14 +106,14 @@ class _NewHomepageState extends State<NewHomepage> {
         ),
       );
 
-  Widget _buildDataLayers(DatumModel entity) =>
+  Widget _buildDataLayers(DatumEntity entity) =>
       Padding(
         padding: EdgeInsets.symmetric(
           horizontal: SizeConfig.safeBlockHorizontal * 3,
           vertical: SizeConfig.safeBlockHorizontal * 2,
         ),
         child: GestureDetector(
-          onTap: () => _onClickListener(entity.id),
+          onTap: () => _onClickListener(entity.id!),
           child: Container(
             width: SizeConfig.safeBlockHorizontal * 90,
             decoration: BoxDecoration(
@@ -154,7 +150,6 @@ class _NewHomepageState extends State<NewHomepage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text('ID No: ${entity.id}'),
                             Text(
                               '${constants.colonName} ${entity.firstname} ${entity.lastname}',
                               style: textColored3(context, global.palette5, FontWeight.bold),
@@ -163,7 +158,7 @@ class _NewHomepageState extends State<NewHomepage> {
                             ),
                             Text(
                               '${constants.colonEmail} ${entity.email}',
-                              maxLines: 1,
+                              maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ],
@@ -182,5 +177,4 @@ class _NewHomepageState extends State<NewHomepage> {
   void _onClickListener(int id) {
     //Utils().pushScreen(context, UsersPage(id: id, datumList: datumList));
   }
-
 }

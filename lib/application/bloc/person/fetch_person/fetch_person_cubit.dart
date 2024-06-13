@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:pdax_exam/infrastructure/model/person/person_model.dart';
 import 'package:pdax_exam/presentation/utility/constants.dart' as constants;
 import 'package:equatable/equatable.dart';
 import 'package:pdax_exam/application/usecase/person/fetch_person_data_usecase.dart';
@@ -14,12 +15,12 @@ class FetchPersonCubit extends Cubit<FetchPersonState> {
     required this.fetchPersonsDataUsecase,
   }) : super(FetchPersonInitial());
 
-  Future<void> fetchPersonsDataCubit(context, {required int count}) async {
+  Future<void> fetchPersonsDataCubit(context, int itemsLoaded, int itemsPerPage) async {
     emit(FetchPersonLoading());
 
     try {
-      final result = await fetchPersonsDataUsecase.call(count);
-      emit(FetchPersonSuccess(persons: result.data!));
+      final result = await fetchPersonsDataUsecase.call(itemsLoaded, itemsPerPage);
+      emit(FetchPersonSuccess(persons: result.data));
     } catch (e) {
       emit(FetchPersonFailure());
       dialogErrorDone(

@@ -1,11 +1,12 @@
 import 'package:pdax_exam/domain/entity/person/person_entity.dart';
+import 'package:pdax_exam/infrastructure/model/person/person_model.dart';
 import 'package:pdax_exam/presentation/utility/constants.dart' as constants;
 import 'package:flutter/material.dart';
 import 'package:pdax_exam/presentation/utility/size_config.dart';
 
 class UsersPage extends StatefulWidget {
   final int id;
-  final List<DatumEntity> datumList;
+  final List<DatumModel> datumList;
   const UsersPage({
     super.key,
     required this.id,

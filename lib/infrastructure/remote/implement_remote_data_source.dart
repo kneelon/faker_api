@@ -11,17 +11,55 @@ class ImplementRemoteDataSource implements RemoteDataSource {
 
   ImplementRemoteDataSource(this.dioServices);
 
+  // @override
+  // Future<PersonEntity> fetchPersonsData(int itemsLoaded, int itemsPerPage) async {
+  //   debugPrint('>>> fetchPersonsData');
+  //   late PersonModel model;
+  //
+  //
+  //   try {
+  //     final response = await dioServices.getRequest('${constants.apiPersons}100');
+  //     if (response.statusCode == 200) {
+  //       var mapData = Map<String, dynamic>.from(response.data);
+  //       model = PersonModel.fromJson(mapData);
+  //       int end = (itemsLoaded + itemsPerPage) > model.data!.length
+  //         ? model.data!.length
+  //         : itemsLoaded + itemsPerPage;
+  //        List<DatumEntity> paginatedData = model.data!.sublist(itemsLoaded, end);
+  //         debugPrint('>>> paginatedData ${paginatedData.length}');
+  //        return PersonEntity(data: paginatedData);
+  //       //return PersonModel(data: model.data!.sublist(itemsLoaded, end));
+  //
+  //     } else {
+  //       model = const PersonModel(data: []);
+  //       return model;
+  //     }
+  //   } catch (e) {
+  //     debugPrint('>>> ERROR $e');
+  //     return const PersonModel(data: []);
+  //   }
+  // }
+
   @override
-  Future<PersonEntity> fetchPersonsData(int count) async {
+  Future<PersonModel> fetchPersonsData(int itemsLoaded, int itemsPerPage) async {
     debugPrint('>>> fetchPersonsData');
     late PersonModel model;
 
     try {
-      final response = await dioServices.getRequest('${constants.apiPersons}$count');
+      final response = await dioServices.getRequest('${constants.apiPersons}100');
       if (response.statusCode == 200) {
         var mapData = Map<String, dynamic>.from(response.data);
         model = PersonModel.fromJson(mapData);
-        return model;
+        int end = (itemsLoaded + itemsPerPage) > model.data.length
+            ? model.data.length : itemsLoaded + itemsPerPage;
+        //List<DatumModel> paginatedData = model.data!.sublist(itemsLoaded, end);
+        List<DatumModel> paginatedData = model.data.sublist(itemsLoaded, end);
+
+        return PersonModel(
+            status: 'OK',
+            code: 200,
+            total: 100,
+            data: paginatedData);
       } else {
         model = response.data;
         return model;
@@ -32,4 +70,26 @@ class ImplementRemoteDataSource implements RemoteDataSource {
     debugPrint('>>> MODEL $model');
     return model;
   }
+
+  // @override
+  // Future<PersonEntity> fetchPersonsData() async {
+  //   debugPrint('>>> fetchPersonsData');
+  //   late PersonModel model;
+  //
+  //   try {
+  //     final response = await dioServices.getRequest('${constants.apiPersons}100');
+  //     if (response.statusCode == 200) {
+  //       var mapData = Map<String, dynamic>.from(response.data);
+  //       model = PersonModel.fromJson(mapData);
+  //       return model;
+  //     } else {
+  //       model = response.data;
+  //       return model;
+  //     }
+  //   } catch (e) {
+  //     debugPrint('>>> ERROR $e');
+  //   }
+  //   debugPrint('>>> MODEL $model');
+  //   return model;
+  // }
 }

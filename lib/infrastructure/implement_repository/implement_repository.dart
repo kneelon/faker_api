@@ -1,6 +1,7 @@
 
 import 'package:pdax_exam/domain/entity/person/person_entity.dart';
 import 'package:pdax_exam/domain/repository/repository.dart';
+import 'package:pdax_exam/infrastructure/model/person/person_model.dart';
 import 'package:pdax_exam/infrastructure/remote/remote_data_source.dart';
 
 class ImplementRepository implements Repository {
@@ -9,8 +10,8 @@ class ImplementRepository implements Repository {
   const ImplementRepository({required this.remoteDataSource});
 
   @override
-  Future<PersonEntity> fetchPersonsData(int count) async {
-    return await remoteDataSource.fetchPersonsData(count);
+  Future<PersonModel> fetchPersonsData(int itemsLoaded, int itemsPerPage) async {
+    return await remoteDataSource.fetchPersonsData(itemsLoaded, itemsPerPage);
   }
 
 }
