@@ -23,25 +23,33 @@ class _NewHomepageState extends State<NewHomepage> {
   List<DatumModel> datumList = [];
   int _itemsLoaded = 0;
   final int _itemsPerPage = 20;
+  final int _maxDataLength = 100;
+  bool _noMoreData = false;
 
   void _onRefresh(context) async {
     _itemsLoaded = 0;
+    _noMoreData = false;
     await BlocProvider.of<FetchPersonCubit>(context)
         .fetchPersonsDataCubit(context, _itemsLoaded, _itemsPerPage);
     _refreshController.refreshCompleted();
   }
 
   void _onLoading(context) async {
-    _itemsLoaded += _itemsPerPage;
-    await BlocProvider.of<FetchPersonCubit>(context)
-        .fetchPersonsDataCubit(context, _itemsLoaded, _itemsPerPage);
+    if (_itemsLoaded < _maxDataLength) {
+      _itemsLoaded += _itemsPerPage;
+      await BlocProvider.of<FetchPersonCubit>(context)
+          .fetchPersonsDataCubit(context, _itemsLoaded, _itemsPerPage);
+      if (_itemsLoaded >= _maxDataLength) {
+        _noMoreData = true;
+      }
+    }
     _refreshController.loadComplete();
   }
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<FetchPersonCubit>(context).fetchPersonsDataCubit(context, _itemsLoaded, _itemsPerPage);
+    BlocProvider.of<FetchPersonCubit>(context).fetchPersonsDataCubit(context, _itemsLoaded, 10);
   }
 
   @override
@@ -93,7 +101,7 @@ class _NewHomepageState extends State<NewHomepage> {
         child: SmartRefresher(
           controller: _refreshController,
           enablePullDown: true,
-          enablePullUp: true,
+          enablePullUp: _noMoreData ? false : true,
           onRefresh: () {
             _onRefresh(context);
           },
@@ -101,8 +109,13 @@ class _NewHomepageState extends State<NewHomepage> {
             _onLoading(context);
           },
           child: ListView.builder(
-            itemCount: datumList.length,
+            itemCount: datumList.length + 1,
             itemBuilder: (context, index) {
+              if (index == datumList.length) {
+                return _noMoreData
+                  ? Center(child: Text('No more data', style: textColored6(context, global.errorColor, FontWeight.normal),))
+                  : const Center(child: CircularProgressIndicator.adaptive());
+              }
               final data = datumList[index];
               return _buildDataLayers(data);
             },
