@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const String apiBaseUrl = 'https://www.advertcity.net/api';
+const String apiBaseUrl = 'https://fakerapi.it/api/v1/';
 
 const Color palette1 = Color.fromARGB(0xff, 0xFF, 0xFF, 0xFF); //White
 const Color palette2 = Color.fromARGB(0xFF, 0xFC, 0xF7, 0xF7); //Off-white
