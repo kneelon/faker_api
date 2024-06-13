@@ -38,12 +38,21 @@ const String capAuthorization = 'Authorization';
 const String capBearer = 'Bearer';
 const String capLoading = 'Loading';
 
+
 const String capsGet = 'GET';
 const String capsPost = 'POST';
 
 const String colonEmail = 'Email:';
 const String colonName = 'Name:';
 const String colonUserId = 'Users ID:';
+const String colonIdNo = 'ID No:';
+const String colonPhone = 'Phone:';
+const String colonBirthday = 'Birthday:';
+const String colonGender = 'Gender:';
+const String colonWebsite = 'Website:';
+const String colonLatitude = 'Latitude:';
+const String colonLongitude = 'Longitude:';
+const String colonAddress = 'Address:';
 
 const String wordFetchPersons = "Fetch Person's";
 

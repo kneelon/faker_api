@@ -133,7 +133,7 @@ class _HomepageState extends State<Homepage> {
         vertical: SizeConfig.safeBlockHorizontal * 2,
       ),
       child: GestureDetector(
-        onTap: () => _onClickListener(entity.id!),
+        onTap: () => _onClickListener(entity.id),
         child: Container(
           width: SizeConfig.safeBlockHorizontal * 90,
           decoration: BoxDecoration(
@@ -195,6 +195,7 @@ class _HomepageState extends State<Homepage> {
     );
 
   void _onClickListener(int id) {
-    Utils().pushScreen(context, UsersPage(id: id, datumList: datumList));
+    int indexId = id - 2;
+    Utils().pushScreen(context, UsersPage(model: datumList[indexId]));
   }
 }

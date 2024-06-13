@@ -193,7 +193,7 @@ class _NewHomepageState extends State<NewHomepage> {
       );
 
   void _onClickListener(int id) {
-    //Utils().pushScreen(context, UsersPage(id: id, datumList: datumList));
+    Utils().pushScreen(context, UsersPage(model: datumList[id - 1]));
   }
 
 }
