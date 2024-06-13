@@ -15,7 +15,7 @@ class FetchPersonLoading extends FetchPersonState {
 }
 
 class FetchPersonSuccess extends FetchPersonState {
-  final List<DatumEntity> persons;
+  final List<DatumModel> persons;
 
   const FetchPersonSuccess({required this.persons});
 

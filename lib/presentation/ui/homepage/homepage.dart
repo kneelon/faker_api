@@ -1,3 +1,4 @@
+import 'package:pdax_exam/infrastructure/model/person/person_model.dart';
 import 'package:pdax_exam/presentation/ui/users_page/users_page.dart';
 import 'package:pdax_exam/presentation/utility/global.dart' as global;
 import 'package:pdax_exam/presentation/utility/constants.dart' as constants;
@@ -20,10 +21,10 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
 
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
-  List<DatumEntity> datumList = [];
+  List<DatumModel> datumList = [];
 
   void _onRefresh() async {
-    context.read<FetchPersonCubit>().fetchPersonsDataCubit(context, count: 10);
+    //context.read<FetchPersonCubit>().fetchPersonsDataCubit(context);
     _refreshController.refreshCompleted();
   }
 
@@ -38,7 +39,7 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<FetchPersonCubit>(context).fetchPersonsDataCubit(context, count: 10);
+    //BlocProvider.of<FetchPersonCubit>(context).fetchPersonsDataCubit(context);
   }
 
   @override
@@ -125,7 +126,7 @@ class _HomepageState extends State<Homepage> {
       },
     );
 
-  Widget _buildDataLayers(DatumEntity entity) =>
+  Widget _buildDataLayers(DatumModel entity) =>
     Padding(
       padding: EdgeInsets.symmetric(
         horizontal: SizeConfig.safeBlockHorizontal * 3,
