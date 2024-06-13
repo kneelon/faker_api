@@ -20,7 +20,6 @@ class UsersPage extends StatefulWidget {
 class _UsersPageState extends State<UsersPage> {
 
   late AddressModel _addressModel;
-  String _imageUrl = constants.empty;
   String _gender = constants.male;
   final String comma = ', ';
 
@@ -46,9 +45,10 @@ class _UsersPageState extends State<UsersPage> {
   void _getUsersData() {
     //Server is down, I am unable to load the image
     // I replaced with placeholder
-    _imageUrl = widget.model.image;
+    String imageUrl = widget.model.image;
     _gender = widget.model.gender;
     _addressModel = widget.model.address;
+    debugPrint(imageUrl);
   }
 
   @override
@@ -162,9 +162,14 @@ class _UsersPageState extends State<UsersPage> {
             child: const Divider(),
           ),
           Text(key, style: textStyle4(context),),
-          Text(
-            _getAddress(),
-            textAlign: TextAlign.center,
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.safeBlockHorizontal * 4,
+            ),
+            child: Text(
+              _getAddress(),
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       );

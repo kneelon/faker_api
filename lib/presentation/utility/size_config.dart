@@ -25,13 +25,3 @@ class SizeConfig{
     safeBlockVertical = (screenHeight - _safeAreaVertical)/100;
   }
 }
-/*
-  screenWidth;
-  screenHeight;
-  blockSizeHorizontal; WidgetWidth = 50% of screen, Padding
-  blockSizeVertical; WidgetHeight = 50% of screen, Padding
-  _safeAreaHorizontal;
-  _safeAreaVertical;
-  safeBlockHorizontal; TextSize
-  safeBlockVertical;
-*/

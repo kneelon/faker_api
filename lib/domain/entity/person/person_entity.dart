@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 class PersonEntity extends Equatable {
@@ -31,7 +30,7 @@ class DatumEntity extends Equatable {
   final String? email;
   final String? phone;
   final DateTime? birthday;
-  final Gender? gender;
+  final String? gender;
   final AddressEntity? address;
   final String? website;
   final String? image;
@@ -102,9 +101,4 @@ class AddressEntity extends Equatable {
     latitude,
     longitude,
   ];
-}
-enum Gender {
-  male,
-  female,
-  others,
 }

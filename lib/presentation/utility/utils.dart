@@ -13,11 +13,6 @@ class Utils {
   void pushScreen(BuildContext context, Widget widget) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => widget));
   }
-
-  void pushReplacement(BuildContext context, Widget widget) {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget));
-  }
-
 }
 
 class ErrorPage extends StatelessWidget {
