@@ -41,8 +41,16 @@ const String capLoading = 'Loading';
 const String capsGet = 'GET';
 const String capsPost = 'POST';
 
+const String colonEmail = 'Email:';
+const String colonName = 'Name:';
+const String colonUserId = 'Users ID:';
+
+const errorData = 'Error fetching data';
+
 const String jsonContentType = 'Content-Type';
 const String jsonUrlEncoded = 'application/x-www-form-urlencoded';
 const String jsonApplication = 'application/json';
 
 const String apiPersons = 'persons?_quantity=';
+
+const String imgProfilePlaceholder = 'assets/images/profile_placeholder.webp';

@@ -13,19 +13,23 @@ class ImplementRemoteDataSource implements RemoteDataSource {
 
   @override
   Future<PersonEntity> fetchPersonsData(int count) async {
+    debugPrint('>>> fetchPersonsData');
     late PersonModel model;
 
     try {
       final response = await dioServices.getRequest('${constants.apiPersons}$count');
       if (response.statusCode == 200) {
-        final jsonData = json.decode(response.data);
-        model = jsonData;
+        var mapData = Map<String, dynamic>.from(response.data);
+        model = PersonModel.fromJson(mapData);
+        return model;
       } else {
         model = response.data;
+        return model;
       }
     } catch (e) {
       debugPrint('>>> ERROR $e');
     }
+    debugPrint('>>> MODEL $model');
     return model;
   }
 }
