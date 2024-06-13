@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdax_exam/application/bloc/person/fetch_person/fetch_person_cubit.dart';
 import 'package:pdax_exam/presentation/ui/homepage/homepage.dart';
+import 'package:pdax_exam/presentation/ui/homepage/new_homepage.dart';
 import 'package:pdax_exam/presentation/utility/size_config.dart';
 import 'package:pdax_exam/presentation/utility/global.dart' as global;
 import 'package:pdax_exam/presentation/utility/utils.dart';
@@ -41,7 +42,7 @@ class SplashScreenPage extends StatelessWidget {
 
   void _delayedFunction(context) {
     Future.delayed(const Duration(seconds: 3), () {
-      Utils().pushScreen(context, const Homepage());
+      Utils().pushScreen(context, const NewHomepage());
     });
   }
 

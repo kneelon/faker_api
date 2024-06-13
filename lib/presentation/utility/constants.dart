@@ -45,6 +45,8 @@ const String colonEmail = 'Email:';
 const String colonName = 'Name:';
 const String colonUserId = 'Users ID:';
 
+const String wordFetchPersons = "Fetch Person's";
+
 const errorData = 'Error fetching data';
 
 const String jsonContentType = 'Content-Type';

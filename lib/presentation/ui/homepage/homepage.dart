@@ -8,6 +8,7 @@ import 'package:pdax_exam/domain/entity/person/person_entity.dart';
 import 'package:pdax_exam/presentation/utility/size_config.dart';
 import 'package:pdax_exam/presentation/utility/utils.dart';
 import 'package:pdax_exam/presentation/widgets/custom_text_style.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -18,7 +19,21 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
 
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
   List<DatumEntity> datumList = [];
+
+  void _onRefresh() async {
+    context.read<FetchPersonCubit>().fetchPersonsDataCubit(context, count: 10);
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    setState(() {
+      //items.addAll(List<String>.generate(10, (i) => 'Loaded Item $i'));
+    });
+    _refreshController.loadComplete();
+  }
 
   @override
   void initState() {
@@ -33,29 +48,38 @@ class _HomepageState extends State<Homepage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: global.palette2,
-          title: const Text('Fetch Persons'),
+          title: const Text(constants.wordFetchPersons),
           centerTitle: true,
           leading: const SizedBox(),
         ),
         backgroundColor: global.palette2,
-        body: _buildBlocBuilder(),
+        body: SmartRefresher(
+          controller: _refreshController,
+          enablePullDown: true,
+          onRefresh: _onRefresh,
+          onLoading: _onLoading,
+          child: _buildBlocBuilder()),
       ),
     );
   }
 
   Widget _buildBlocBuilder() =>
-    BlocBuilder<FetchPersonCubit, FetchPersonState>(
+    BlocConsumer<FetchPersonCubit, FetchPersonState>(
+      listener: (context, state) {
+        if (state is FetchPersonSuccess) {
+          _refreshController.refreshCompleted();
+        } else if (state is FetchPersonFailure) {
+          _refreshController.refreshFailed();
+        }
+      },
       builder: (context, state) {
         if (state is FetchPersonLoading) {
           return const Center(child: CircularProgressIndicator.adaptive());
         }
         if (state is FetchPersonSuccess) {
           datumList = state.persons;
-          return Column(
-            children: <Widget>[
-              _buildListViewBuilder(),
-            ],
-          );
+          //return _buildPullToRefresh();
+          return _buildListViewBuilder();
         }
         if (state is FetchPersonFailure) {
           return const Center(child: Text('Error fetching data'));
@@ -64,15 +88,41 @@ class _HomepageState extends State<Homepage> {
       },
     );
 
+  // Widget _buildPullToRefresh() =>
+  //   SmartRefresher(
+  //     controller: _refreshController,
+  //     onRefresh: _onRefresh,
+  //     child: _buildListViewBuilder(),
+  //   );
+
+  // Widget _buildBlocBuilder() =>
+  //   BlocBuilder<FetchPersonCubit, FetchPersonState>(
+  //     builder: (context, state) {
+  //       if (state is FetchPersonLoading) {
+  //         return const Center(child: CircularProgressIndicator.adaptive());
+  //       }
+  //       if (state is FetchPersonSuccess) {
+  //         datumList = state.persons;
+  //         return Column(
+  //           children: <Widget>[
+  //             _buildListViewBuilder(),
+  //           ],
+  //         );
+  //       }
+  //       if (state is FetchPersonFailure) {
+  //         return const Center(child: Text('Error fetching data'));
+  //       }
+  //       return const Center(child: CircularProgressIndicator.adaptive());
+  //     },
+  //   );
+
   Widget _buildListViewBuilder() =>
-    Expanded(
-      child: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          final data = datumList[index];
-          return _buildDataLayers(data);
-        },
-      ),
+    ListView.builder(
+      itemCount: 10,
+      itemBuilder: (context, index) {
+        final data = datumList[index];
+        return _buildDataLayers(data);
+      },
     );
 
   Widget _buildDataLayers(DatumEntity entity) =>
