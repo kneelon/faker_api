@@ -14,17 +14,17 @@ class PersonModel {
   });
 
   factory PersonModel.fromJson(Map<String, dynamic> json) => PersonModel(
-    status: json["status"],
-    code: json["code"],
-    total: json["total"],
+    status: json[constants.status],
+    code: json[constants.code],
+    total: json[constants.total],
     data: List<DatumModel>.from(json["data"].map((x) => DatumModel.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "code": code,
-    "total": total,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    constants.status: status,
+    constants.code: code,
+    constants.total: total,
+    constants.data: List<dynamic>.from(data.map((x) => x.toJson())),
   };
 }
 
@@ -54,29 +54,29 @@ class DatumModel {
   });
 
   factory DatumModel.fromJson(Map<String, dynamic> json) => DatumModel(
-    id: json["id"],
-    firstname: json["firstname"],
-    lastname: json["lastname"],
-    email: json["email"],
-    phone: json["phone"],
-    birthday: DateTime.parse(json["birthday"]),
+    id: json[constants.id],
+    firstname: json[constants.firstname],
+    lastname: json[constants.lastname],
+    email: json[constants.email],
+    phone: json[constants.phone],
+    birthday: DateTime.parse(json[constants.birthday]),
     gender: json[constants.gender],
-    address: AddressModel.fromJson(json["address"]),
-    website: json["website"],
-    image: json["image"],
+    address: AddressModel.fromJson(json[constants.address]),
+    website: json[constants.website],
+    image: json[constants.image],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "firstname": firstname,
-    "lastname": lastname,
-    "email": email,
-    "phone": phone,
-    "birthday": "${birthday.year.toString().padLeft(4, '0')}-${birthday.month.toString().padLeft(2, '0')}-${birthday.day.toString().padLeft(2, '0')}",
-    "gender": gender,
-    "address": address.toJson(),
-    "website": website,
-    "image": image,
+    constants.id: id,
+    constants.firstname: firstname,
+    constants.lastname: lastname,
+    constants.email: email,
+    constants.phone: phone,
+    constants.birthday: "${birthday.year.toString().padLeft(4, '0')}-${birthday.month.toString().padLeft(2, '0')}-${birthday.day.toString().padLeft(2, '0')}",
+    constants.gender: gender,
+    constants.address: address.toJson(),
+    constants.website: website,
+    constants.image: image,
   };
 }
 
@@ -106,28 +106,28 @@ class AddressModel {
   });
 
   factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
-    id: json["id"],
-    street: json["street"],
-    streetName: json["streetName"],
-    buildingNumber: json["buildingNumber"],
-    city: json["city"],
-    zipcode: json["zipcode"],
-    country: json["country"],
-    countyCode: json["county_code"],
-    latitude: json["latitude"]?.toDouble(),
-    longitude: json["longitude"]?.toDouble(),
+    id: json[constants.id],
+    street: json[constants.street],
+    streetName: json[constants.streetName],
+    buildingNumber: json[constants.buildingNumber],
+    city: json[constants.city],
+    zipcode: json[constants.zipcode],
+    country: json[constants.country],
+    countyCode: json[constants.county_code],
+    latitude: json[constants.latitude]?.toDouble(),
+    longitude: json[constants.longitude]?.toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "street": street,
-    "streetName": streetName,
-    "buildingNumber": buildingNumber,
-    "city": city,
-    "zipcode": zipcode,
-    "country": country,
-    "county_code": countyCode,
-    "latitude": latitude,
-    "longitude": longitude,
+    constants.id: id,
+    constants.street: street,
+    constants.streetName: streetName,
+    constants.buildingNumber: buildingNumber,
+    constants.city: city,
+    constants.zipcode: zipcode,
+    constants.country: country,
+    constants.county_code: countyCode,
+    constants.latitude: latitude,
+    constants.longitude: longitude,
   };
 }

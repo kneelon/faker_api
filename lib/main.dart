@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdax_exam/application/bloc/person/fetch_person/fetch_person_cubit.dart';
-import 'package:pdax_exam/presentation/ui/homepage/homepage.dart';
 import 'package:pdax_exam/presentation/ui/homepage/new_homepage.dart';
 import 'package:pdax_exam/presentation/utility/size_config.dart';
 import 'package:pdax_exam/presentation/utility/global.dart' as global;
+import 'package:pdax_exam/presentation/utility/constants.dart' as constants;
 import 'package:pdax_exam/presentation/utility/utils.dart';
 import 'application/dependency_injection.dart' as di;
 
@@ -17,7 +17,6 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<FetchPersonCubit>(create: (_) => di.sl<FetchPersonCubit>()),
       ],
       child: MaterialApp(
-        title: 'Pdax',
+        title: constants.appName,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: global.palette6),
@@ -56,7 +55,7 @@ class SplashScreenPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: global.palette6,
         body: Center(
-          child: Image.asset('assets/images/app_logo.png'),
+          child: Image.asset(constants.imgAppLogo),
         )
       ),
     );

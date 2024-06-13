@@ -33,31 +33,6 @@ class MyDioServices {
      return response;
   }
 
-  Future<Response> postRequest(String endPoint, Map<String, dynamic> data) async {
-    Response response;
-
-    var headers = {
-      constants.capAccept: constants.jsonApplication,
-      constants.capAuthorization: '${constants.capBearer} $token',
-      constants.jsonContentType: constants.jsonApplication,
-    };
-
-    try {
-      response = await _dio.post(endPoint, data: data, options: Options(
-        followRedirects: false,
-        validateStatus: (status) => true,
-        method: constants.capsPost,
-        headers: headers,
-      ));
-
-      if (response.statusCode == 200) {
-      }
-    } on DioException catch(e) {
-      throw Exception(e.message);
-    }
-    return response;
-  }
-
   _initializeInterceptors() {
     _dio.interceptors.add(InterceptorsWrapper());
   }

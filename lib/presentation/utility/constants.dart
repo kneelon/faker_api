@@ -1,4 +1,5 @@
 
+const String appName = 'Pdax';
 const String status = 'status';
 const String code = 'code';
 const String total = 'total';
@@ -41,6 +42,7 @@ const String capLoading = 'Loading';
 
 const String capsGet = 'GET';
 const String capsPost = 'POST';
+const String capsOk = 'OK';
 
 const String colonEmail = 'Email:';
 const String colonName = 'Name:';
@@ -65,3 +67,4 @@ const String jsonApplication = 'application/json';
 const String apiPersons = 'persons?_quantity=';
 
 const String imgProfilePlaceholder = 'assets/images/profile_placeholder.webp';
+const String imgAppLogo = 'assets/images/app_logo.png';

@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdax_exam/application/bloc/person/fetch_person/fetch_person_cubit.dart';
-import 'package:pdax_exam/domain/entity/person/person_entity.dart';
 import 'package:pdax_exam/infrastructure/model/person/person_model.dart';
 import 'package:pdax_exam/presentation/ui/users_page/users_page.dart';
 import 'package:pdax_exam/presentation/utility/global.dart' as global;
@@ -49,7 +48,7 @@ class _NewHomepageState extends State<NewHomepage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<FetchPersonCubit>(context).fetchPersonsDataCubit(context, _itemsLoaded, 10);
+    BlocProvider.of<FetchPersonCubit>(context).fetchPersonsDataCubit(context, _itemsLoaded, _itemsPerPage);
   }
 
   @override
@@ -114,7 +113,7 @@ class _NewHomepageState extends State<NewHomepage> {
               if (index == datumList.length) {
                 return _noMoreData
                   ? Center(child: Text('No more data', style: textColored6(context, global.errorColor, FontWeight.normal),))
-                  : const Center(child: CircularProgressIndicator.adaptive());
+                  : const SizedBox();
               }
               final data = datumList[index];
               return _buildDataLayers(data);
@@ -144,7 +143,6 @@ class _NewHomepageState extends State<NewHomepage> {
                   padding: EdgeInsets.all(SizeConfig.safeBlockHorizontal * 2),
                   child: Row(
                     children: <Widget>[
-                      //Image.network(entity.image!),
                       Container(
                         width: SizeConfig.safeBlockHorizontal * 16,
                         height: SizeConfig.safeBlockHorizontal * 16,
